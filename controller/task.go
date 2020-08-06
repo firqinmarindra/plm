@@ -39,10 +39,9 @@ type RegisTask struct {
 	Password string `json:"password"`
 }
 type LoginGet struct {
-	Email    	string `json:"email"`
-	Nama 		string `json:"nama"`
+	Email string `json:"email"`
+	Nama  string `json:"nama"`
 }
-
 
 //registration
 func (Controller Controller) PostsRegis(c echo.Context) error {
@@ -63,15 +62,14 @@ func (Controller Controller) PostsRegis(c echo.Context) error {
 	insertUser := Controller.ma.InsertTbl_User(ab)
 	insertUserAuth := Controller.ma.InsertTbl_UserAuth(ab)
 
-
 	if cekEmail {
 
 		if insertUser && insertUserAuth {
-			getRegis := LoginGet{a.Email,a.Name}
+			getRegis := LoginGet{a.Email, a.Name}
 			res := responsegenr.ResponseGenericGet{
 				Status:  "Success",
 				Message: "Berhasil Input Data",
-				Data: getRegis,
+				Data:    getRegis,
 			}
 			return c.JSON(http.StatusOK, res)
 		} else {
@@ -110,13 +108,13 @@ func (Controller Controller) UpEdit(c echo.Context) error {
 	EditTbl_user := Controller.ma.EditTbl_user(ab)
 	EditTbl_user_auth := Controller.ma.EditTbl_user_auth(ab)
 
-	if  EditTbl_user && EditTbl_user_auth{
+	if EditTbl_user && EditTbl_user_auth {
 
-		getUpdate := LoginGet{a.Email,a.Name}
+		getUpdate := LoginGet{a.Email, a.Name}
 		res := responsegenr.ResponseGenericGet{
 			Status:  "Success",
 			Message: "Berhasil update data",
-			Data: getUpdate,
+			Data:    getUpdate,
 		}
 		return c.JSON(http.StatusOK, res)
 
@@ -142,24 +140,34 @@ func (Controller Controller) GetLogin(c echo.Context) error {
 		Email:    id.Email,
 		Password: id.Password,
 	}
-
+	cekLogin := Controller.ma.Ceklogin(ab.Email, ab.Password)
 	positions := Controller.ma.GetPositionUserLogin(ab)
-	posts := Controller.ma.LoginTask(ab,positions.Position)
+	posts := Controller.ma.LoginTask(ab, positions.Position)
 
+	if cekLogin {
+		if posts.Status {
+			res := responsegenr.ResponseGenericGet{
+				Status:  "Success",
+				Message: "Login berhasil",
+				Data:    posts.ResLogin,
+			}
+			return c.JSON(http.StatusOK, res)
 
-	if posts.Status {
-		res := responsegenr.ResponseGenericGet{
-			Status:  "Success",
-			Message: "Login berhasil",
-			Data:    posts.ResLogin,
+		} else {
+
+			res := responsegenr.ResponseGenericGet{
+				Status:  "Error",
+				Message: "Login Gagal ",
+			}
+			return c.JSON(http.StatusOK, res)
+		}
+	}else {
+
+		res := responsegenr.ResponseGeneric{
+			Status:  "Error",
+			Message: "Salah email/password ",
 		}
 		return c.JSON(http.StatusOK, res)
-	}
 
-	res := responsegenr.ResponseGenericGet{
-		Status:  "Error",
-		Message: "Login Gagal",
-		Data:    posts,
 	}
-	return c.JSON(http.StatusOK, res)
 }
