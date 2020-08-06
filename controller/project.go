@@ -137,32 +137,26 @@ func (Controller Controller) EditProject(c echo.Context) error {
 
 	}
 }
+
 //view
-//func (Controller Controller) ViewProject(c echo.Context) error {
-//	a := new(TaskProject)
-//	if err := c.Bind(a); err != nil {
-//		return err
-//	}
-//
-//	ab := models.TaskProject{
-//		Email:    a.Email,
-//		Id_project: a.Id_project,
-//	}
-//	posts := Controller.ma.ViewProject(ab)
-//
-//	if posts.Status {
-//		res := responsegenr.ResponseGenericGet{
-//			Status:  "Success",
-//			Message: "Login berhasil",
-//			Data:    posts.ResView,
-//		}
-//		return c.JSON(http.StatusOK, res)
-//	}
-//	res := responsegenr.ResponseGenericGet{
-//		Status:  "Error",
-//		Message: "Login Gagal",
-//		Data:    posts,
-//	}
-//	return c.JSON(http.StatusOK, res)
-//}
+func (Controller Controller) ViewProject(c echo.Context) error {
+	a := new(ProjectViewget)
+	if err := c.Bind(a); err != nil {
+		return err
+	}
+
+	ab := models.TaskProjectView{
+		Email:      a.Email,
+		Id_project: a.Id_project,
+	}
+	view := Controller.ma.ViewProject(ab)
+
+	res := responsegenr.ResponseGenericGet{
+		Status:  "Success",
+		Message: "Berhasil dapatkan data project",
+		Data:    view,
+	}
+	return c.JSON(http.StatusOK, res)
+
+}
 
