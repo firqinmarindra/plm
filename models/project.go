@@ -12,19 +12,29 @@ type TaskProject struct {
 	Deskripsi    string `json:"deskripsi"`
 }
 
-type ProjectView struct {
-	Status  bool       `json:"status"`
-	ResView ProjectRes `json:"resView"`
+type TaskProjectView struct {
+	Email        string `json:"email"`
+	Id_project   int    `json:"id_project"`
+	Project_name string `json:"project_name"`
+	Deskripsi    string `json:"deskripsi"`
+	Create_date  string `json:"create_date"`
 }
+type Taskcekemail struct {
+	Email        string `json:"email"`
+	Id_project   int    `json:"id_project"`
+	Project_name string `json:"project_name"`
+	Deskripsi    string `json:"deskripsi"`
+	Create_date  string `json:"create_date"`
+}
+
 type ProjectRes struct {
-	Id_project   string       `json:"id_project"`
-	Project_name string       `json:"project_name"`
-	Deskripsi    string       `json:"deskripsi"`
-	Member       ProjectsView `json:"member"`
+	Id_project   string `json:"id_project"`
+	Project_name string `json:"project_name"`
+	Deskripsi    string `json:"deskripsi"`
 }
 
 type ProjectsView struct {
-	Id_member string `json:"id_member"`
+	ProjectView []TaskProjectView `json:"project_view"`
 }
 
 type ProjectTask struct {
@@ -36,7 +46,6 @@ type ProjectTask struct {
 type CekId struct {
 	Max int `json:"max"`
 }
-
 
 //create
 func (ExampleModel Models) InsertTbl_Project(Create TaskProject) bool {
@@ -71,7 +80,6 @@ func (ExampleModel Models) MaxIdProject(Create TaskProject) int {
 	} else {
 		fmt.Println(res3)
 	}
-
 
 	//task := TaskProject{}
 	for res3.Next() {
@@ -156,65 +164,32 @@ func (ExampleModel Models) EditTbl_Project(Edit TaskProject) bool {
 }
 
 //view
-//func (ExampleModel Models) ViewProject(View TaskProject) ProjectView {
-//	getView := ProjectView{}
-//
-//	sqlStatement3 := "SELECT tbl_project.name FROM tbl_project " +
-//		"WHERE tbl_project.id_project =$1 "
-//	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
-//		View.Id_project,
-//	)
-//	if err3 != nil {
-//		fmt.Println(err3)
-//
-//	} else {
-//		fmt.Println(res3)
-//	}
-//	task := ProjectTask{}
-//	for res3.Next() {
-//		err3 := res3.Scan(&task.Id_project, &task.Project_name, &task.Deskripsi)
-//		// Exit if we get an error
-//		if err3 != nil {
-//			fmt.Println(err3)
-//
-//		}
-//	}
-//	if task.Id_project != "" {
-//		getView.Status = false
-//		return getView
-//	}
-//
-//	sqlStatement := "SELECT * FROM tbl_member_belongto_project " +
-//		"INNER JOIN tbl_project ON tbl_member_belongto_project.id_project = tbl_project.id "+
-//		"WHERE tbl_member_belongto_project.id =$1 "
-//	res, err := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement,
-//		View.Id_project,
-//	)
-//	if err3 != nil {
-//		fmt.Println(err)
-//
-//	} else {
-//		fmt.Println(res)
-//	}
-//
-//	ViewResponse := ProjectView{}
-//	for res.Next() {
-//		projects := ProjectRes{}
-//		err2 := res.Scan(&projects.Member.Id_member)
-//		// Exit if we get an error
-//		if err2 != nil {
-//			fmt.Println(err2)
-//		}
-//		projects.Id_project = task.Id_project
-//
-//		ViewResponse.Projects = append(ViewResponse.Projects, projects)
-//	}
-//
-//	loginResponse.Email = Login.Email
-//
-//	getlogin.Status = true
-//	getlogin.ResLogin = loginResponse
-//
-//	return getView
+func (ExampleModel Models) ViewProject(View TaskProjectView) ProjectsView {
 
-//}
+	sqlStatement3 := "SELECT *  FROM tbl_project " +
+		"WHERE tbl_project.id=$1 "
+	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
+		View.Id_project,
+	)
+	if err3 != nil {
+		fmt.Println(err3)
+
+	} else {
+		fmt.Println(res3)
+	}
+	result := ProjectsView{}
+
+	for res3.Next() {
+		task := TaskProjectView{}
+		err3 := res3.Scan(&task.Id_project, &task.Project_name, &task.Email, &task.Deskripsi, &task.Create_date)
+		// Exit if we get an error
+		if err3 != nil {
+			fmt.Println(err3)
+
+		}
+		result.ProjectView = append(result.ProjectView, task)
+	}
+
+	return result
+
+}
