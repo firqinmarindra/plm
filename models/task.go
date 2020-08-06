@@ -221,13 +221,8 @@ func (ExampleModel Models) LoginTask(Login Task, Positions string) LoginTask1 {
 
 	loginResponse.Email = Login.Email
 
-	if getlogin.Status != true {
-		fmt.Println(err2)
-	}else {
-		fmt.Println(res2)
-		return getlogin
-	}
 	
+	getlogin.Status = true
 	getlogin.ResLogin = loginResponse
 	return getlogin
 }
