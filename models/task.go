@@ -86,6 +86,7 @@ func (ExampleModel Models) InsertTbl_User(Regis Task) bool {
 		Regis.Name,
 		"",
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -102,6 +103,7 @@ func (ExampleModel Models) CekEmailUser(Email string) bool {
 	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
 		Email,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(res2)
 	} else {
@@ -116,7 +118,7 @@ func (ExampleModel Models) CekEmailUser(Email string) bool {
 			fmt.Println(err2)
 		}
 	}
-
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if task.Email != "" {
 		return false
 	}
@@ -134,6 +136,7 @@ func (ExampleModel Models) EditTbl_user(Edit Task) bool {
 		Edit.Email,
 
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -155,6 +158,7 @@ func (ExampleModel Models) EditTbl_user_auth(Edit Task) bool {
 		'-',
 		true,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 		return false
@@ -206,6 +210,7 @@ func (ExampleModel Models) GetPositionUserLogin(Login Task) UserTask {
 		Login.Email,
 		Login.Password,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err != nil {
 		fmt.Println(err)
 		return task
@@ -235,6 +240,7 @@ func (ExampleModel Models) LoginTask(Login Task, Positions string) LoginTask1 {
 	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
 		Login.Email,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 
