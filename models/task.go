@@ -25,13 +25,6 @@ type UserTask struct {
 	Name     string `json:"name"`
 }
 
-type CekTask struct {
-	
-	Id_user           string `json:"id_user"`
-	Password          string `json:"password"`
-	
-}
-
 type LoginTask1 struct {
 	Status   bool           `json:"status"`
 	ResLogin ProjectsLogin1 `json:"resLogin"`
@@ -86,7 +79,6 @@ func (ExampleModel Models) InsertTbl_User(Regis Task) bool {
 		Regis.Name,
 		"",
 	)
-	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -103,7 +95,6 @@ func (ExampleModel Models) CekEmailUser(Email string) bool {
 	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
 		Email,
 	)
-	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(res2)
 	} else {
@@ -118,7 +109,7 @@ func (ExampleModel Models) CekEmailUser(Email string) bool {
 			fmt.Println(err2)
 		}
 	}
-	defer ExampleModel.db.GetDatabaseConfig().Close()
+
 	if task.Email != "" {
 		return false
 	}
@@ -134,9 +125,7 @@ func (ExampleModel Models) EditTbl_user(Edit Task) bool {
 	res, err := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement,
 		Edit.Name,
 		Edit.Email,
-
 	)
-	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -158,7 +147,6 @@ func (ExampleModel Models) EditTbl_user_auth(Edit Task) bool {
 		'-',
 		true,
 	)
-	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 		return false
@@ -169,37 +157,7 @@ func (ExampleModel Models) EditTbl_user_auth(Edit Task) bool {
 }
 
 //login
-func (ExampleModel Models) Ceklogin(Email string, Password string) bool {
-	// CEK EMAIL TERDAFTAR
-	sqlStatement2 := "SELECT tbl_user_auth.id_user, tbl_user_auth.password FROM tbl_user_auth " +
-		"WHERE id_user=$1 AND password=$2 "
-	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
-		Email,
-		Password,
-	)
-	defer ExampleModel.db.GetDatabaseConfig().Close()
-	if err2 != nil {
-		fmt.Println(res2)
-	} else {
-		fmt.Println(err2)
-	}
 
-	task := CekTask{}
-	for res2.Next() {
-		err2 := res2.Scan(&task.Id_user, &task.Password)
-		// Exit if we get an error
-		if err2 != nil {
-			fmt.Println(err2)
-		}
-	}
-
-	if task.Id_user != Email {
-		return false
-	}else if task.Password != Password {
-		return false
-	}
-	return true
-}
 func (ExampleModel Models) GetPositionUserLogin(Login Task) UserTask {
 
 	task := UserTask{}
@@ -210,7 +168,6 @@ func (ExampleModel Models) GetPositionUserLogin(Login Task) UserTask {
 		Login.Email,
 		Login.Password,
 	)
-	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err != nil {
 		fmt.Println(err)
 		return task
@@ -232,7 +189,7 @@ func (ExampleModel Models) GetPositionUserLogin(Login Task) UserTask {
 func (ExampleModel Models) LoginTask(Login Task, Positions string) LoginTask1 {
 	getlogin := LoginTask1{}
 
-	sqlStatement2 := "SELECT  tbl_project.id,tbl_project.name FROM tbl_project " +
+	sqlStatement2 := "SELECT  tbl_project.id,tbl_project FROM tbl_project " +
 		"INNER JOIN tbl_member_belongto_project ON tbl_project.id =  tbl_member_belongto_project.id_project " +
 		"WHERE tbl_member_belongto_project.id_user = $1 OR tbl_project.creator = $1 " +
 		"GROUP BY tbl_project.id"
@@ -240,10 +197,8 @@ func (ExampleModel Models) LoginTask(Login Task, Positions string) LoginTask1 {
 	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
 		Login.Email,
 	)
-	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
-
 	} else {
 		fmt.Println(res2)
 	}
