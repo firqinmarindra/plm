@@ -57,6 +57,7 @@ func (ExampleModel Models) InsertTbl_Project(Create TaskProject) bool {
 		Create.Email,
 		Create.Deskripsi,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -74,7 +75,7 @@ func (ExampleModel Models) MaxIdProject(Create TaskProject) int {
 	sqlStatement3 := " SELECT  max(id) FROM tbl_project "
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 	)
-
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 	} else {
@@ -103,6 +104,7 @@ func (ExampleModel Models) InsertTbl_member_belongto_project(Create TaskProject,
 		Create.Email,
 		true,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	fmt.Println(MaxId)
 	if err != nil {
 		fmt.Println(err)
@@ -122,6 +124,7 @@ func (ExampleModel Models) CekId_Project(Edit TaskProject) bool {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		Edit.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -153,6 +156,7 @@ func (ExampleModel Models) EditTbl_Project(Edit TaskProject) bool {
 		Edit.Project_name,
 		Edit.Deskripsi,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -171,6 +175,7 @@ func (ExampleModel Models) ViewProject(View TaskProjectView) ProjectsView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
