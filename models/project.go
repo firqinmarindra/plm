@@ -10,6 +10,7 @@ type TaskProject struct {
 	Email        string `json:"email"`
 	Project_name string `json:"project_name"`
 	Deskripsi    string `json:"deskripsi"`
+	Id_role      int    `json:"id_role"`
 }
 
 type TaskProjectView struct {
@@ -57,6 +58,7 @@ func (ExampleModel Models) InsertTbl_Project(Create TaskProject) bool {
 		Create.Email,
 		Create.Deskripsi,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -73,7 +75,7 @@ func (ExampleModel Models) MaxIdProject(Create TaskProject) int {
 	Maxx := CekId{}
 	sqlStatement3 := " SELECT  max(id) FROM tbl_project "
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3)
-
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 	} else {
@@ -102,7 +104,27 @@ func (ExampleModel Models) InsertTbl_member_belongto_project(Create TaskProject,
 		Create.Email,
 		true,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	fmt.Println(MaxId)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	} else {
+		fmt.Println(res)
+		return true
+	}
+
+}
+func (ExampleModel Models) InsertTbl_role_belongto_member_project(Create TaskProject, MaxId int) bool {
+	sqlStatement := "INSERT INTO tbl_role_belongto_member_project (id_role, id_member_project, creator, create_date) " +
+		"VALUES ($1,$2 ,$3, now()::timestamp)"
+	res, err := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement,
+		1,
+		MaxId,
+		Create.Email,
+	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
+	fmt.Println(Create.Id_role)
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -121,6 +143,7 @@ func (ExampleModel Models) CekId_Project(Edit TaskProject) bool {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		Edit.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -152,6 +175,7 @@ func (ExampleModel Models) EditTbl_Project(Edit TaskProject) bool {
 		Edit.Project_name,
 		Edit.Deskripsi,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -170,6 +194,7 @@ func (ExampleModel Models) ViewProject(View TaskProjectView) ProjectsView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 

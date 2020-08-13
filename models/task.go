@@ -49,6 +49,7 @@ type ProjectLogin struct {
 	Id_project   int    `json:"id_project"`
 	Project_name string `json:"project_name"`
 	Description  string `json:"description"`
+	Id_role      int    `json:"id_role"`
 }
 
 type Models struct {
@@ -85,6 +86,7 @@ func (ExampleModel Models) InsertTbl_User(Regis Task) bool {
 		Regis.Name,
 		"",
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -101,6 +103,7 @@ func (ExampleModel Models) CekEmailUser(Email string) bool {
 	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
 		Email,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(res2)
 	} else {
@@ -132,6 +135,7 @@ func (ExampleModel Models) EditTbl_user(Edit Task) bool {
 		Edit.Name,
 		Edit.Email,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -153,6 +157,7 @@ func (ExampleModel Models) EditTbl_user_auth(Edit Task) bool {
 		'-',
 		true,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 		return false
@@ -204,6 +209,7 @@ func (ExampleModel Models) GetPositionUserLogin(Login Task) UserTask {
 		Login.Email,
 		Login.Password,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err != nil {
 		fmt.Println(err)
 		return task
@@ -225,14 +231,16 @@ func (ExampleModel Models) GetPositionUserLogin(Login Task) UserTask {
 func (ExampleModel Models) LoginTask(Login Task, Positions string) LoginTask1 {
 	getlogin := LoginTask1{}
 
-	sqlStatement2 := "SELECT  tbl_project.id,tbl_project.name,tbl_project.description FROM tbl_project " +
+	sqlStatement2 := "SELECT  tbl_project.id,tbl_project.name,tbl_project.description,tbl_role_belongto_member_project.id_role FROM tbl_project " +
 		"INNER JOIN tbl_member_belongto_project ON tbl_project.id =  tbl_member_belongto_project.id_project " +
-		"WHERE tbl_member_belongto_project.id_user = $1 OR tbl_project.creator = $1 " +
-		"GROUP BY tbl_project.id"
+		"INNER JOIN tbl_role_belongto_member_project ON tbl_member_belongto_project.id_project = tbl_role_belongto_member_project.id_member_project " +
+		"WHERE tbl_member_belongto_project.id_user = $1 OR tbl_project.creator = $1 " //+
+		//"GROUP BY tbl_project.id"
 
 	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
 		Login.Email,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 
@@ -244,7 +252,7 @@ func (ExampleModel Models) LoginTask(Login Task, Positions string) LoginTask1 {
 
 	for res2.Next() {
 		projects := ProjectsLogin{}
-		err2 := res2.Scan(&projects.Project.Id_project, &projects.Project.Project_name, &projects.Project.Description)
+		err2 := res2.Scan(&projects.Project.Id_project, &projects.Project.Project_name, &projects.Project.Description, &projects.Project.Id_role)
 		// Exit if we get an error
 		if err2 != nil {
 			fmt.Println(err2)

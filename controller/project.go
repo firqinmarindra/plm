@@ -14,6 +14,7 @@ type TaskProject struct {
 	Email        string `json:"email"`
 	Project_name string `json:"project_name"`
 	Deskripsi    string `json:"deskripsi"`
+	//Id_role      int    `json:"id_role"`
 }
 
 type EditGet struct {
@@ -27,6 +28,7 @@ type CreateGets struct {
 	Id_project   int    `json:"id_project"`
 	Project_name string `json:"project_name"`
 	Deskripsi    string `json:"deskripsi"`
+	//Id_role      int    `json:"id_role"`
 }
 
 type ProjectViewget struct {
@@ -45,6 +47,7 @@ func (Controller Controller) PostsCreate(c echo.Context) error {
 		Email:        a.Email,
 		Project_name: a.Project_name,
 		Deskripsi:    a.Deskripsi,
+		//Id_role:      a.Id_role,
 	}
 
 	fmt.Println(a.Email)
@@ -53,11 +56,12 @@ func (Controller Controller) PostsCreate(c echo.Context) error {
 	GetMaxId := Controller.ma.MaxIdProject(ab)
 	//cekIdProject := Controller.ma.MaxIdProject(ab)
 	insertTbl_member_belongto_project := Controller.ma.InsertTbl_member_belongto_project(ab, GetMaxId)
+	insertTbl_role_belongto_member_project := Controller.ma.InsertTbl_role_belongto_member_project(ab, GetMaxId)
 
 	fmt.Println(GetMaxId)
 	//if cekIdProject {
 
-	if insertTbl_project && insertTbl_member_belongto_project {
+	if insertTbl_project && insertTbl_member_belongto_project && insertTbl_role_belongto_member_project {
 
 		getCreate := CreateGets{Id_project: GetMaxId, Project_name: a.Project_name, Deskripsi: a.Deskripsi}
 		res := responsegenr.ResponseGenericGet{
