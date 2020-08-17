@@ -97,6 +97,7 @@ func (ExampleModel Models) AddUsec(Add Usecasetask) bool {
 		135,
 		"pending",
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -118,6 +119,7 @@ func (ExampleModel Models) EditUsec(Edit Usecasetask) bool {
 		"pending",
 		Edit.Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -139,6 +141,7 @@ func (ExampleModel Models) AddUsecDesc(Add UsecDescTask) bool {
 		Add.Description,
 		135,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -161,6 +164,7 @@ func (ExampleModel Models) EditUsecDesc(Edit UsecDescTask) bool {
 		Edit.Index,
 		Edit.Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -178,6 +182,7 @@ func (ExampleModel Models) DelUsecDesc(Id int) bool {
 	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
 		Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -196,6 +201,7 @@ func (ExampleModel Models) ViewUsec(View UsecViewtask) UsecView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -230,6 +236,7 @@ func (ExampleModel Models) ViewUsecErd(View UsecViewErdtask) UsecViewErd {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_erd,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -264,6 +271,7 @@ func (ExampleModel Models) ViewUsecScenar(View UsecViewScenartask) UsecViewScena
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_usecase_scenario,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -299,6 +307,7 @@ func (ExampleModel Models) ViewUsecDataflow(View UsecViewDflowtask) UsecViewDflo
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_dataflow,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 

@@ -28,6 +28,7 @@ func (ExampleModel Models) AddUmanual(Add Umanualtask) bool {
 		Add.Id_project,
 		Add.Link_usermanual,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -51,6 +52,7 @@ func (ExampleModel Models) EditUmanual(Edit Umanualtask) bool {
 		Edit.Link_usermanual,
 		Edit.Status,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -69,6 +71,7 @@ func (ExampleModel Models) ViewUmanual(View ViewUmanualtask) UmanualView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 

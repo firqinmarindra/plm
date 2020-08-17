@@ -41,6 +41,7 @@ func (ExampleModel Models) AddSeqDiags(Add SeqDiagtask) bool {
 		2,
 		"pending",
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -64,6 +65,7 @@ func (ExampleModel Models) EditSeqDiags(Edit SeqDiagtask) bool {
 		Edit.Status,
 		Edit.Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -82,6 +84,7 @@ func (ExampleModel Models) ViewSeqDiag(View ViewSeqDiagtask) SeqDiagView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_dataflow_structure,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -117,6 +120,7 @@ func (ExampleModel Models) ViewSeqDiagProj(View ViewSeqDiagProjtask) SeqDiagProj
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 

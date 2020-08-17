@@ -43,6 +43,7 @@ func (ExampleModel Models) AddArch(Add Archtask) bool {
 		136,
 		"pending",
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -64,6 +65,7 @@ func (ExampleModel Models) EditArch(Edit Archtask) bool {
 		Edit.Id_arch_diag,
 		8,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -83,6 +85,7 @@ func (ExampleModel Models) AddArchDesc(Add ArchDestask) bool {
 		Add.Desc_index,
 		Add.Description,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -104,6 +107,7 @@ func (ExampleModel Models) EditArchDesc(Edit ArchDestask) bool {
 		Edit.Id_arch_diag,
 		Edit.Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -121,6 +125,7 @@ func (ExampleModel Models) DelArchDesc(Id int) bool {
 	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
 		Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -139,6 +144,7 @@ func (ExampleModel Models) ViewArch(View ArchViewtask) ArchView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 

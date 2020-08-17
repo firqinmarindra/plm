@@ -9,17 +9,23 @@ type Membertask struct {
 	Id_project int    `json:"id_project"`
 }
 
-type MemberViewtask struct {
-	Id          int    `json:"id"`
-	Id_user     string `json:"id_user"`
-	Id_project  int    `json:"id_project"`
-	Creator     string `json:"creator"`
-	Status      string `json:"status"`
-	Create_date string `json:"create_date"`
+type Membertaskview struct {
+	Id_project int `json:"id_project"`
+}
+
+type MemberView1 struct {
+	Status  bool       `json:"status"`
+	ResView MemberView `json:"res_view"`
 }
 
 type MemberView struct {
-	MemberView []MemberViewtask `json:"MemberView"`
+	Id_project int              `json:"id_project"`
+	Member     []MemberViewtask `json:"member"`
+}
+
+type MemberViewtask struct {
+	Name     string `json:"name"`
+	Position string `json:"position"`
 }
 
 //add member
@@ -33,6 +39,7 @@ func (ExampleModel Models) AddMember(Add Membertask) bool {
 		Add.Email,
 		true,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -43,13 +50,45 @@ func (ExampleModel Models) AddMember(Add Membertask) bool {
 }
 
 //view member
-func (ExampleModel Models) ViewMember(View MemberViewtask) MemberView {
+func (ExampleModel Models) GetId_projectMember(View Membertask) MemberView {
 
-	sqlStatement3 := "SELECT *  FROM tbl_member_belongto_project " +
+	sqlStatement3 := "SELECT tbl_member_belongto_project.id_project FROM tbl_member_belongto_project " +
 		"WHERE tbl_member_belongto_project.id_project=$1 "
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
+	if err3 != nil {
+		fmt.Println(err3)
+
+	} else {
+		fmt.Println(res3)
+	}
+	task := MemberView{}
+	for res3.Next() {
+		err3 := res3.Scan(&task.Id_project)
+		// Exit if we get an error
+		if err3 != nil {
+			fmt.Println(err3)
+
+		}
+		//result.MemberView = append(result.MemberView, task)
+	}
+
+	return task
+
+}
+
+func (ExampleModel Models) ViewMember(View Membertask, Id_project int) MemberView1 {
+	getview := MemberView1{}
+
+	sqlStatement3 := "SELECT tbl_user.name,tbl_user.position  FROM tbl_member_belongto_project " +
+		"INNER JOIN tbl_user ON tbl_member_belongto_project.id_user = tbl_user.email " +
+		"WHERE tbl_member_belongto_project.id_project=$1 "
+	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
+		View.Id_project,
+	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -60,16 +99,22 @@ func (ExampleModel Models) ViewMember(View MemberViewtask) MemberView {
 
 	for res3.Next() {
 		task := MemberViewtask{}
-		err3 := res3.Scan(&task.Id, &task.Id_user, &task.Id_project, &task.Creator, &task.Status, &task.Create_date)
+		err3 := res3.Scan(&task.Name, &task.Position)
 		// Exit if we get an error
 		if err3 != nil {
 			fmt.Println(err3)
 
 		}
-		result.MemberView = append(result.MemberView, task)
+		result.Member = append(result.Member, task)
 	}
 
-	return result
+	//return result
+
+	result.Id_project = View.Id_project
+
+	getview.Status = true
+	getview.ResView = result
+	return getview
 
 }
 
@@ -81,6 +126,7 @@ func (ExampleModel Models) DelMember(Id_member int) bool {
 	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
 		Id_member,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false

@@ -117,6 +117,7 @@ func (ExampleModel Models) ViewDflow(View DataflowViewtask) DataflowView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_dataflow,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -152,6 +153,7 @@ func (ExampleModel Models) ViewDflowSequence(View DataflowSequnceViewtask) Dataf
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_sequence,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -187,6 +189,7 @@ func (ExampleModel Models) ViewDflowDesign(View DataflowDesignViewtask) Dataflow
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_design,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -219,6 +222,7 @@ func (ExampleModel Models) ViewDflowStructProj(View DataflowProjViewtask) Datafl
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 

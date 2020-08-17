@@ -49,6 +49,7 @@ func (ExampleModel Models) AddScenario(Add UsecScentask) bool {
 		2,
 		"pending",
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -75,6 +76,7 @@ func (ExampleModel Models) EditScenario(Edit UsecScentask) bool {
 		Edit.Status,
 		Edit.Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -93,6 +95,7 @@ func (ExampleModel Models) ViewScen(View ViewUsecScentask) UsecScenView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_usecase_desc,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -128,6 +131,7 @@ func (ExampleModel Models) ViewScenProj(View ViewUsecScenProjtask) UsecScenProjV
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 

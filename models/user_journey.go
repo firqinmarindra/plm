@@ -56,6 +56,7 @@ func (ExampleModel Models) AddUserjrnys(Add Userjrnytask) bool {
 		'-',
 		"pending",
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -83,6 +84,7 @@ func (ExampleModel Models) EditUserjrnys(Edit Userjrnytask) bool {
 		Edit.Status,
 		Edit.Id_journey,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -102,6 +104,7 @@ func (ExampleModel Models) ViewUserjrnyDflow(View UserjrnyDflowViewtask) Userjrn
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_dataflow,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -135,6 +138,7 @@ func (ExampleModel Models) ViewUserjrnyDflowStruct(View UserjrnyDflowStructViewt
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_dataflow_structure,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -167,6 +171,7 @@ func (ExampleModel Models) ViewUserjrnyProj(View UserjrnyProjViewtask) UserjrnyP
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 

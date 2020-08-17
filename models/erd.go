@@ -65,6 +65,7 @@ func (ExampleModel Models) AddErd(Add Erdtask) bool {
 		Add.Link_erd,
 		2,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -85,6 +86,7 @@ func (ExampleModel Models) EditErd(Edit Erdtask) bool {
 		2,
 		Edit.Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -106,6 +108,7 @@ func (ExampleModel Models) AddErdTable(Add Erdtask) bool {
 		2,
 		"pending",
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -127,6 +130,7 @@ func (ExampleModel Models) EditErdTable(Edit Erdtask) bool {
 		Edit.Status,
 		Edit.Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -144,6 +148,7 @@ func (ExampleModel Models) DelErdTable(Id int) bool {
 	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
 		Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -165,6 +170,7 @@ func (ExampleModel Models) AddErdField(Add Erdtask) bool {
 		Add.Field_length,
 		2,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -186,6 +192,7 @@ func (ExampleModel Models) EditErdField(Edit Erdtask) bool {
 		Edit.Field_length,
 		Edit.Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -203,6 +210,7 @@ func (ExampleModel Models) DelErdField(Id int) bool {
 	res2, err2 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement2,
 		Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -222,6 +230,7 @@ func (ExampleModel Models) ViewErdUsec(View ErdUsecaseViewtask) ErdUsecaseView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_usecase,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -257,6 +266,7 @@ func (ExampleModel Models) ViewErdTable(View ErdtableViewtask) ErdtableView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_erd,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -292,6 +302,7 @@ func (ExampleModel Models) ViewErdField(View ErdfieldViewtask) ErdfieldView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_table,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -327,6 +338,7 @@ func (ExampleModel Models) ViewErdTableAll(View ErdtableViewtask) ErdtableView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_erd,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -362,6 +374,7 @@ func (ExampleModel Models) ViewErdProj(View ErdprojViewtask) ErdprojView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 

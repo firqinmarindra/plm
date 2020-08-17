@@ -77,7 +77,6 @@ func (ExampleModel Models) InsertTbl_UserAuth(Regis Task) bool {
 		return true
 	}
 }
-
 func (ExampleModel Models) InsertTbl_User(Regis Task) bool {
 	sqlStatement := "INSERT INTO tbl_user (email, name, position) " +
 		"VALUES ($1, $2, $3)"
@@ -95,7 +94,6 @@ func (ExampleModel Models) InsertTbl_User(Regis Task) bool {
 		return true
 	}
 }
-
 func (ExampleModel Models) CekEmailUser(Email string) bool {
 	// CEK EMAIL TERDAFTAR
 	sqlStatement2 := "SELECT * FROM tbl_user " +
@@ -227,7 +225,6 @@ func (ExampleModel Models) GetPositionUserLogin(Login Task) UserTask {
 	return task
 
 }
-
 func (ExampleModel Models) LoginTask(Login Task, Positions string) LoginTask1 {
 	getlogin := LoginTask1{}
 

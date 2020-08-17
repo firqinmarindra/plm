@@ -69,18 +69,30 @@ func (Controller Controller) ViewMember(c echo.Context) error {
 		return err
 	}
 
-	ab := models.MemberViewtask{
-		Id_user:    a.Email,
+	ab := models.Membertask{
+		Email:      a.Email,
 		Id_project: a.Id_project,
 	}
-	view := Controller.ma.ViewMember(ab)
+	//cekLogin := Controller.ma.Ceklogin(ab.Email, ab.Password)
+	id_project := Controller.ma.GetId_projectMember(ab)
+	view := Controller.ma.ViewMember(ab, id_project.Id_project)
 
-	res := responsegenr.ResponseGenericGet{
-		Status:  "Success",
-		Message: "Berhasil dapatkan data member",
-		Data:    view,
+	if view.Status {
+		res := responsegenr.ResponseGenericGet{
+			Status:  "Success",
+			Message: "view berhasil",
+			Data:    view.ResView,
+		}
+		return c.JSON(http.StatusOK, res)
+
+	} else {
+
+		res := responsegenr.ResponseGenericGet{
+			Status:  "Error",
+			Message: "Login Gagal ",
+		}
+		return c.JSON(http.StatusOK, res)
 	}
-	return c.JSON(http.StatusOK, res)
 
 }
 

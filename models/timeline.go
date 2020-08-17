@@ -51,6 +51,7 @@ func (ExampleModel Models) CreateTimel(Create TimeL) bool {
 		Create.Note,
 		Create.Id_member,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -77,6 +78,7 @@ func (ExampleModel Models) EditTimel(Edit TimeL) bool {
 		Edit.Weight,
 		Edit.Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -95,6 +97,7 @@ func (ExampleModel Models) ViewTimel(View TimelViewtask) TimelView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 

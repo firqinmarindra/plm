@@ -102,6 +102,7 @@ func (ExampleModel Models) AddDataflow(Add Dataflowtask) bool {
 		2,
 		"pending",
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -125,6 +126,7 @@ func (ExampleModel Models) EditDataflow(Edit Dataflowtask) bool {
 		Edit.Status,
 		Edit.Id,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -144,6 +146,7 @@ func (ExampleModel Models) ViewDataflowDesc(View DataflowDescViewtask) DataflowD
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_usecase_desc,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -178,6 +181,7 @@ func (ExampleModel Models) ViewUjour(View DataflowUjourViewtask) DataflowUjourVi
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_userjourney,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -213,6 +217,7 @@ func (ExampleModel Models) ViewDflowStruct(View DataflowStructViewtask) Dataflow
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_dataflow_structure,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
@@ -247,6 +252,7 @@ func (ExampleModel Models) ViewDflowProj(View DataflowProjectViewtask) DataflowP
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_project,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 

@@ -32,6 +32,7 @@ func (ExampleModel Models) AddUi(Add Uitask) bool {
 		2,
 		"pending",
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -54,6 +55,7 @@ func (ExampleModel Models) EditUi(Edit Uitask) bool {
 		Edit.Status,
 		Edit.Id_journey,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err2 != nil {
 		fmt.Println(err2)
 		return false
@@ -72,6 +74,7 @@ func (ExampleModel Models) ViewUi(View ViewUitask) UiView {
 	res3, err3 := ExampleModel.db.GetDatabaseConfig().Query(sqlStatement3,
 		View.Id_journey,
 	)
+	defer ExampleModel.db.GetDatabaseConfig().Close()
 	if err3 != nil {
 		fmt.Println(err3)
 
